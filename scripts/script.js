@@ -9,6 +9,7 @@ canvas.width = window.innerWidth
 canvas.height = window.innerHeight
 const CenterX = canvas.width / 2
 const CenterY = canvas.height / 2
+c.lineWidth = 18
 
 class Spiral {
 	Angle = 0
@@ -17,11 +18,9 @@ class Spiral {
 	Radius = 0
 	RadiusStep = 0.1
 
-	SpiralLoops = 30;
+	SpiralLoops = 24;
 	Iterations = this.SpiralLoops * 360 * this.AngleStep
 
-	Color = 'black'
-	LineWidth = 20
 	update() {
 		this.Angle += this.AngleStep;
 		this.draw()
@@ -30,8 +29,6 @@ class Spiral {
 		let angle = this.Angle;
 		let radius = this.Radius
 
-		c.strokeStyle = this.Color
-		c.lineWidth = this.LineWidth
 		c.beginPath()
 		c.moveTo(CenterX, CenterY)
 
@@ -67,8 +64,8 @@ function animate() {
 	spiral.update()
 
 	c.beginPath();
-	c.fillStyle = 'white'
-	c.arc(CenterX, CenterY, 10, 0, Math.PI * 2)
+	// c.fillStyle = 'white'
+	c.arc(CenterX, CenterY, 6, 0, Math.PI * 2)
 	c.stroke();
 	c.fill()
 }
