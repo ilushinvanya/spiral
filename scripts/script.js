@@ -9,17 +9,19 @@ canvas.width = window.innerWidth
 canvas.height = window.innerHeight
 const CenterX = canvas.width / 2
 const CenterY = canvas.height / 2
-c.lineWidth = 18
+c.lineWidth = 4
 
 class Spiral {
-	Angle = 0
-	AngleStep = 1;
+	constructor(startAngle, color) {
+		this.Angle = startAngle
+		this.Color = color
 
+		this.SpiralLoops = 20;
+		this.Iterations = this.SpiralLoops * 360 * this.AngleStep
+	}
+	AngleStep = 1;
 	Radius = 0
 	RadiusStep = 0.1
-
-	SpiralLoops = 24;
-	Iterations = this.SpiralLoops * 360 * this.AngleStep
 
 	update() {
 		this.Angle += this.AngleStep;
@@ -31,6 +33,7 @@ class Spiral {
 
 		c.beginPath()
 		c.moveTo(CenterX, CenterY)
+		c.strokeStyle = this.Color
 
 		// Рисуем спираль
 		for (let i = 0; i < this.Iterations; i++) {
@@ -54,18 +57,27 @@ class Spiral {
 		return { x, y };
 	}
 }
+const spirals = []
+function init() {
+	const count = 4
+	const colors = ['black', 'black', 'black', 'black']
+	for (let i = 0; i < count; i++) {
+		spirals.push(
+			new Spiral(i * 360 / count, colors[i])
+		)
+	}
+}
 
-const spiral = new Spiral()
-
-setInterval(animate, 1)
 
 function animate() {
+	requestAnimationFrame(animate)
 	c.clearRect(0, 0, canvas.width, canvas.height)
-	spiral.update()
+	spirals.forEach(spiral => spiral.update())
 
 	c.beginPath();
-	// c.fillStyle = 'white'
 	c.arc(CenterX, CenterY, 6, 0, Math.PI * 2)
 	c.stroke();
 	c.fill()
 }
+init()
+animate()
